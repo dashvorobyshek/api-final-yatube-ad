@@ -1,3 +1,6 @@
 from django.test import TestCase
 
-# Create your tests here.
+
+class FollowModelTest(TestCase):
+    def test_string_representation(self):
+        pass
