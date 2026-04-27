@@ -7,9 +7,11 @@ from .serializers import (
     PostSerializer, GroupSerializer, CommentSerializer, FollowSerializer
 )
 from .permissions import IsOwnerOrReadOnly
+from rest_framework.pagination import LimitOffsetPagination
 
 
 class PostViewSet(viewsets.ModelViewSet):
+    pagination_class = LimitOffsetPagination
     queryset = Post.objects.all().order_by('id')
     serializer_class = PostSerializer
     permission_classes = [IsOwnerOrReadOnly]
