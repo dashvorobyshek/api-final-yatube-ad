@@ -56,17 +56,11 @@ class FollowSerializer(serializers.ModelSerializer):
 
     def validate_following(self, value):
         request = self.context.get('request')
-        if Follow.objects.filter(
-            user=request.user, following=value
-        ).exists():
+        if request and request.user.is_authenticated:
             if request.user == value:
-                raise serializers.ValidationError(
-                    'Нельзя подписаться на самого себя'
-                )
-            if Follow.objects.filter(
-                user=request.user, following=value
-            ).exists():
-                raise serializers.ValidationError(
-                    'Вы уже подписаны на этого пользователя'
-                )
+                from rest_framework import serializers
+                raise serializers.ValidationError('Нельзя подписаться на самого себя')
+            if Follow.objects.filter(user=request.user, following=value).exists():
+                from rest_framework import serializers
+                raise serializers.ValidationError('Вы уже подписаны на этого пользователя')
         return value
